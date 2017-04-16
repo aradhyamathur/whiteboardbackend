@@ -56,7 +56,7 @@ celerybeat-schedule
 # Know Your Representative
 _docs_html/
 media/
-.sqlite3
+*.sqlite3
 # Virtual env
 venv/
 ### Vim ###

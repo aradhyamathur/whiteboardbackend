@@ -88,16 +88,20 @@ def student_assignments(request):
 @api_view(['POST'])
 def submit_grievance(request):
     data = request.data
-    user = WhiteBoardUser.objects.get(email=data['email'])
-    gsubject = data['subject']
+    print data
+    print data['email']
+    complainer = WhiteBoardUser.objects.get(email=data['email'])
+    gsubject = data['title']
+    print complainer
     info = data['info']
     print gsubject, info
-    grievance = GrievanceSerializer(user=user, subject=data['subject'],
-                                    grievance_type=data['grievance_type'], info=info)
-    if grievance.is_valid():
+    grievance = GrievanceSerializer(data={'user': complainer.id,
+                                    'subject': gsubject, 'info': info})
+    print grievance
+    if grievance.is_valid(raise_exception=True):
         grievance.save()
         return Response(grievance.data, status=201)
-    return Response(grievance.errors, status=400)
+    return Response("Error", status=400)
 
 
 @api_view(['POST', 'GET'])
